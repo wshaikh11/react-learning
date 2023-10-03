@@ -1,0 +1,61 @@
+Lifecycle
+
+1] Mounting : when the component is created and inserted into the DOM
+constructor 
+- special function which is called when the component is created
+- call the super(props), so that we can this in constructor
+- initialize the state varaible
+- bind the event
+- do not cause side effect i.e make http request in constroctor
+- In React life cycle, constructor method calls before componentDidMount (), but after componentDidMount() method component is ready in the DOM. If you call the API in constructor, data will be fetched but component is not exist in DOM. So, the best way to use the API in componentDidMount() because component is ready and placed in the DOM.
+
+static getDerivedPropsFromState(props,state)
+- react documentation classifies this method as rarely used lifecycle method
+- when the state of the components depends on chnage in props over the time
+- set state can be called
+- as the method is static, we cannot use this
+- do not cause the side effects
+
+render
+- only required method
+- read props & state and returns JSX
+- render method is a pure function 
+- do not change the state of the component, interact with the dom or make ajax call
+- children components life cycle is also executed 
+ 
+componentDidMount
+- called only once in the whole lifecycle of the component
+- invoked immidietely after a component and it's childern have been rendered to the DOM
+- perfect place to cause the side effect (interact with the DOM, perform ajax call)
+
+=========================================================================================================================================================================================================
+
+2] Updating : When the component is re-renderd
+static getDerivedStateFromProps(props,state)
+- Method is called everytime the component is re-renderd
+- when the state of the components depends on chnage in props over the time
+
+shouldComponentUpdate(nextProps, nextState)
+- dictates if the component should re-render or not
+- by default the component will re-render, we have to return false if we dont want to re-render on update of the state
+- what we can do in this method is compare the existing props and state values with the next props and state and return true or false 
+- performance optimization
+- do not cause the side effect
+
+ 
+render
+- Only required method 
+- read props & state and returns JSX
+- do not change the state of the component, interact with the dom or make ajax call
+
+getSnapshotBeforeUpdate(prevProps, prevState)
+- called right before the changes from the virtual DOM are reflected into the DOM
+- rarely used method
+- capture some information from the DOM
+- method will either return null or a value
+- returned parameter will be passed as the third parameter of the next function
+
+componentDidUpdate(prevState,prevProps,snapshot)
+- called after the render is finished in the re-render cycle
+- this method is guranted to called only once in each re-render cycle
+- can make ajax call
